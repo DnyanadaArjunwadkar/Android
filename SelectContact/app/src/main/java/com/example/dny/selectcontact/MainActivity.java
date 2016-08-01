@@ -15,11 +15,19 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity{
   static final int pick=1;
+    ArrayList<String> Todo = null;
+    ArrayAdapter<String> adapter = null;
+    ListView lv = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +35,14 @@ public class MainActivity extends ActionBarActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final Button button = (Button) findViewById(R.id.button);
+
+
+        Todo = new ArrayList<>();
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Todo);
+        lv = (ListView) findViewById(R.id.listView);
+        lv.setAdapter(adapter);
+
+
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
@@ -60,7 +76,7 @@ public class MainActivity extends ActionBarActivity{
 
                         String hasPhone =c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
 
-                   
+
                         Log.e("dny hasPhhone:",hasPhone);
                         if (hasPhone.equalsIgnoreCase("1")) {
                             Cursor phones = getContentResolver().query(
@@ -80,7 +96,11 @@ public class MainActivity extends ActionBarActivity{
         }
 
         TextView tv = (TextView)findViewById(R.id.tv);
-        tv.setText("You have selected :"+name + cNumber);
+        tv.setText("You have selected :" + name + cNumber);
+        String str=name+":"+cNumber;
+        Todo.add(str);
+        lv.setAdapter(adapter);
+        Log.e("New Item added:", "Added");
 
 
     }
