@@ -1,4 +1,13 @@
-package edu.buffalo.cse.cse486586.groupmessenger1;
+/*
+
+
+Distributed System 
+SimpleMessenger project template was provided by Prof. Steve Ko. 
+Code was added to provide socket connections to enable two android virtual devices to 
+communicate with each other using port forwarding. Python scripts were used to create 2 
+virtual devices and redirected to port 10000.
+
+*/package edu.buffalo.cse.cse486586.groupmessenger1;
 
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -51,12 +60,9 @@ public class GroupMessengerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_messenger);
 
-
         TelephonyManager tel = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
         String portStr = tel.getLine1Number().substring(tel.getLine1Number().length() - 4);
         final String myPort = String.valueOf((Integer.parseInt(portStr) * 2));
-
-
 
         try {
 
@@ -67,8 +73,6 @@ public class GroupMessengerActivity extends Activity {
             Log.e(TAG, "Can't create a ServerSocket");
             return;
         }
-
-
         /*
          * TODO: Use the TextView to display your messages. Though there is no grading component
          * on how you display the messages, if you implement it, it'll make your debugging easier.
@@ -107,8 +111,6 @@ public class GroupMessengerActivity extends Activity {
                      * http://developer.android.com/reference/android/os/AsyncTask.html
                      */
                 new ClientTask().executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, msg, myPort);
-
-
             }
         });
 
@@ -127,8 +129,6 @@ public class GroupMessengerActivity extends Activity {
         getMenuInflater().inflate(R.menu.activity_group_messenger, menu);
         return true;
     }
-
-
 
     private class ServerTask extends AsyncTask<ServerSocket, String, Void> {
 
@@ -214,8 +214,6 @@ public class GroupMessengerActivity extends Activity {
 
                 String msgToSend = msgs[0];
 
-
-
                 DataOutputStream dos=new DataOutputStream(socket.getOutputStream());
                 DataOutputStream dos1=new DataOutputStream(socket1.getOutputStream());
                 DataOutputStream dos2=new DataOutputStream(socket2.getOutputStream());
@@ -228,11 +226,7 @@ public class GroupMessengerActivity extends Activity {
                 dos3.writeUTF(msgToSend);
                 dos4.writeUTF(msgToSend);
 
-
-
             //  MatrixCursor mt = (MatrixCursor) getContentResolver().query(uri, null, key, null, null);
-
-
 
                 socket.close();
                 socket1.close();
@@ -248,6 +242,5 @@ public class GroupMessengerActivity extends Activity {
             return null;
         }
     }
-
 
 }
